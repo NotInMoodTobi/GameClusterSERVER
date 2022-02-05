@@ -4,20 +4,20 @@ const dbConnection = require('./knex_connection');
 /*
 // --- game functions ---
 function createGame(game) {
-    return knex('game').insert(game);
+    return dbConnection('game').insert(game);
 }
 
 function getAllGames() {
-    return knex('game').select('*');
+    return dbConnection('game').select('*');
 }
 
 function updateGame(id, game) {
-    return knex('game').where('game_id', id).update(game);
+    return dbConnection('game').where('game_id', id).update(game);
 }
 
 function deleteGame(id) {
     isDeleted = !(knex('game').where('game_id', id).select(deleted)); // revert 'delted' flag
-    return knex('game').where('game_id', id).update({deleted: isDeleted});
+    return dbConnection('game').where('game_id', id).update({deleted: isDeleted});
 }
 */
 
@@ -31,31 +31,35 @@ function createGenre(name) {
     return dbConnection('genre').insert(name);
 }
 
-// add genre to genre_game_connection
-function addGenreToGame(game_id, genre_id) {
-    // todo: abfangen bei duplikat
-    return dbConnection('game_genre_connection').insert(game_id, genre_id);
+// add genre to game(genre_game_connection)
+// TODO: results überarbeiten
+// TODO: abfangen bei duplikat -> https://stackoverflow.com/questions/16460397/sql-insert-into-table-only-if-record-doesnt-exist
+function addGenreToGame(game_genre) {
+    return dbConnection('game_genre_connection').insert(game_genre);
 }
 
 // remove genre from game
-function removeGenreFromGame(game_id, genre_id) {
-    return dbConnection('game_genre_connection')
-    .where('fk_game_id', game_id)
-    .andWhere('fk_genre_id', genre_id)
-    .del();
+// TODO: bedinung hinzufügen dass game_id & genre_id einen wert benötigen, sonst kann unsinn passieren
+function removeGenreFromGame(game_genre) {
+    return dbConnection('game_genre_connection').del().where(game_genre);
 }
 
+// gets all genre from a game
 function getGenreFromGame(game_id) {
     return dbConnection('game_genre_connection')
+    .select('genre.genre_id', 'genre.name')
     .innerJoin('genre',
     'game_genre_connection.fk_genre_id',
     '=',
     'genre.genre_id')
+    .where('game_genre_connection.fk_game_id', game_id);
 }
 
 // hard delete genre & delete genre from all games
+// TODO: funktioniert noch nicht
 function deleteGenre(genre_id) {
-    return dbConnection('genre').where('id', id).del();
+    console.log(genre_id);
+    return dbConnection('genre').where('genre_id', genre_id).del();
 }
 
 module.exports = {
@@ -69,5 +73,7 @@ module.exports = {
     getAllGenre,
     createGenre,
     addGenreToGame,
-    removeGenreFromGame
+    removeGenreFromGame,
+    getGenreFromGame,
+    deleteGenre
 };

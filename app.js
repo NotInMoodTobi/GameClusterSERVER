@@ -55,16 +55,31 @@ app.post('/api/create-genre', async (req, res) => {
 });
 
 // add genre to game
+// TODO: results überarbeiten
 app.post('/api/add-genre-to-game', async (req, res) => {
     const results = await db.addGenreToGame(req.body);
     res.status(200).json({results});
 });
 
+// getGenreFromGame
+app.get('/api/get-genre-from-Game/:id', async(req, res) => {
+    const genre = await db.getGenreFromGame(req.params.id);
+    res.status(200).json({genre});
+});
+
 // remove genre from game
 app.delete('/api/remove-genre-from-game', async (req, res) => {
-    const results = await db.removeGenreFromGame();
+    const results = await db.removeGenreFromGame(req.body);
     res.status(200).json({results});
 });
+
+// TODO: funktioniert noch nicht
+app.delete('api/delete-genre/:id', async (req, res) => {
+    const results = await db.deleteGenre(req.params.id);
+    res.status(200).json({results});
+});
+
+// remove genre
 
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
