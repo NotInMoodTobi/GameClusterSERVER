@@ -3,13 +3,13 @@ const { get } = require('request');
 const request = require('request');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const db = require('./database/apiFunctions');
+const db = require('./apiFunctions');
 
 const app = express();
 const port = 5000;
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false })); // ursprüglich false
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
 // api roots
@@ -32,11 +32,15 @@ app.patch('/api/games/:id', async (req, res) => {
     res.status(200).json({id});
 });
 
-//softdelete
+
+
+// hard delete
 app.delete('/api/game:id', async (req, res) => {
     const result = await db.deleteGame(req.params.id);
     res.status(200).json({succcess: true});
 });
+
+// genre operations
 
 // get all genre
 app.get('/api/genre', async (req, res) => {
@@ -44,6 +48,23 @@ app.get('/api/genre', async (req, res) => {
     res.status(200).json({genre});
 });
 
+// create genre
+app.post('/api/create-genre', async (req, res) => {
+    const results = await db.createGenre(req.body);
+    res.status(200).json({results});
+});
+
+// add genre to game
+app.post('/api/add-genre-to-game', async (req, res) => {
+    const results = await db.addGenreToGame(req.body);
+    res.status(200).json({results});
+});
+
+// remove genre from game
+app.delete('/api/remove-genre-from-game', async (req, res) => {
+    const results = await db.removeGenreFromGame();
+    res.status(200).json({results});
+});
 
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
