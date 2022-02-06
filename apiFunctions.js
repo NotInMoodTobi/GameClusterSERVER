@@ -67,6 +67,23 @@ function deleteGenre(genre_id) {
     return dbConnection('genre').del().where('genre_id', genre_id);
 }
 
+// --- publisher functions ---
+function getAllPublisher() {
+    return dbConnection('publisher').select('*');
+}
+
+function getPublisherById(publisher_id) {
+    return dbConnection('publisher').select('*').where('publisher_id', publisher_id);
+}
+
+function addPublisher(publisher) {
+    return dbConnection('publisher').insert(publisher);
+}
+
+function deletePublisher(publisher_id) {
+    return dbConnection('publisher').del().where('publisher_id', publisher_id);
+}
+
 module.exports = {
     /*games
     createGame,
@@ -74,12 +91,18 @@ module.exports = {
     updateGame,
     deleteGame,*/
 
-    //genre operations
+    // genre functions
     getAllGenre,
     getGenreById,
     createGenre,
     addGenreToGame,
     removeGenreFromGame,
     getGenreFromGame,
-    deleteGenre
+    deleteGenre,
+
+    // publisher functions
+    getAllPublisher,
+    getPublisherById,
+    addPublisher,
+    deletePublisher
 };

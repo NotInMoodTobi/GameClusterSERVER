@@ -87,5 +87,25 @@ app.delete('/api/delete-genre/:id', async (req, res) => {
 
 // --- publisher operations ---
 
+app.get('/api/publisher', async (req, res) => {
+    const results = await db.getAllPublisher();
+    res.status(200).json({results})
+});
+
+app.get('/api/publisher/:id', async (req, res) => {
+    const results = await db.getPublisherById(req.params.id);
+    res.status(200).json({results})
+});
+
+app.post('/api/publisher', async (req, res) => {
+    const results = await db.addPublisher(req.body);
+    res.status(200).json({results})
+});
+
+app.delete('/api/publisher/:id', async (req, res) => {
+    const results = await db.deletePublisher(req.params.id);
+    res.status(200).json({results})
+});
+
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
