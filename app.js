@@ -17,6 +17,20 @@ app.use(cors());
 
 // api roots
 
+//SteamAPI Tester
+app.get('/api/steamapps', async (req, res) => {
+    const apps = await steam.searchGame(req.body);
+    res.status(200).json({apps});
+});
+app.get('/api/steamapps/get-name-from-id', async (req, res) => {
+    const apps = await steam.sarchGameNameFromId(req.body);
+    res.status(200).json({apps});
+});
+app.get('/api/steamapps/get-details', async (req, res) => {
+    const apps = await steam.getAllGameDetails(req.body);
+    res.status(200).json({apps});
+});
+
 // --- game operations ---
 
 // get all games
