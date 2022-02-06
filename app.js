@@ -22,19 +22,20 @@ app.get('/api/games', async (req, res) => {
     res.status(200).json({games});
 });
 
+// get game by id
 app.get('/api/games/:id', async (req, res) => {
     const game = await db.getGameById(req.params.id);
     res.status(200).json({game});
 });
 
-// get game by id
-
+// TODO: nicht fertig, testen
 // create game
 app.post('/api/games', async (req, res) => {
     const results = await db.createGame(req.body);
     res.status(201).json({id: results[0]});
 });
 
+// TODO: nichts fertig, testen
 // update game
 app.patch('/api/games/:id', async (req, res) => {
     const id = await db.updateGame(req.params.id, req.body);
@@ -43,13 +44,16 @@ app.patch('/api/games/:id', async (req, res) => {
 
 
 // hard delete
-// TODO: testen
+// TODO: nicht fertig, testen
 app.delete('/api/game:id', async (req, res) => {
     const result = await db.deleteGame(req.params.id);
     res.status(200).json({succcess: true});
 });
 
 // --- steamAPI --- //
+
+// TODO: nicht fertig
+// load data from steamAPI into game
 app.patch('/api/steam-data-to-game/:id', async (req, res) => {
     // const id = await db.(req.params.id, req.body);
     res.status(200).json({id});
