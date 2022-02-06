@@ -1,7 +1,7 @@
 const knex = require('knex');
 const dbConnection = require('./knex_connection');
 
-/*
+
 // --- game functions ---
 function createGame(game) {
     return dbConnection('game').insert(game);
@@ -10,6 +10,11 @@ function createGame(game) {
 function getAllGames() {
     return dbConnection('game').select('*');
 }
+
+function getGameById(game_id){
+    return dbConnection('game').select('*').where('game_id', game_id);
+}
+/*
 
 function updateGame(id, game) {
     return dbConnection('game').where('game_id', id).update(game);
@@ -30,7 +35,7 @@ function getAllGenre() {
 
 // get genre by id
 function getGenreById(genre_id) {
-    return dbConnection('genre').select('*').where('genre_id', genre_id)
+    return dbConnection('genre').select('*').where('genre_id', genre_id);
 }
 
 // create genre
@@ -112,11 +117,12 @@ function removePublisherFromGame(publisher_genre) {
 }
 
 module.exports = {
-    /*games
+    // games functions
     createGame,
     getAllGames,
-    updateGame,
-    deleteGame,*/
+    getGameById,
+    // updateGame,
+    // deleteGame,
 
     // genre functions
     getAllGenre,

@@ -14,11 +14,20 @@ app.use(cors());
 
 // api roots
 
+// --- game operations ---
+
 // get all games
-app.get("api/games", async (req, res) => {
+app.get('/api/games', async (req, res) => {
     const games = await db.getAllGames();
     res.status(200).json({games});
 });
+
+app.get('/api/games/:id', async (req, res) => {
+    const game = await db.getGameById(req.params.id);
+    res.status(200).json({game});
+});
+
+// get game by id
 
 // create game
 app.post('/api/games', async (req, res) => {
@@ -40,8 +49,14 @@ app.delete('/api/game:id', async (req, res) => {
     res.status(200).json({succcess: true});
 });
 
+// --- steamAPI --- //
+app.patch('/api/steam-data-to-game/:id', async (req, res) => {
+    // const id = await db.(req.params.id, req.body);
+    res.status(200).json({id});
+});
 
-// --- genre operations ---
+
+// --- genre operations --- //
 
 // get all genre
 app.get('/api/genre', async (req, res) => {
