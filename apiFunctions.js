@@ -56,10 +56,8 @@ function getGenreFromGame(game_id) {
 }
 
 // hard delete genre & delete genre from all games
-// TODO: funktioniert noch nicht
 function deleteGenre(genre_id) {
-    console.log(genre_id);
-    return dbConnection('genre').where('genre_id', genre_id).del();
+    return dbConnection('genre').del().where('genre_id', genre_id);
 }
 
 module.exports = {

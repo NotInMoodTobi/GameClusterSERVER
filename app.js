@@ -73,8 +73,7 @@ app.delete('/api/remove-genre-from-game', async (req, res) => {
     res.status(200).json({results});
 });
 
-// TODO: funktioniert noch nicht
-app.delete('api/delete-genre/:id', async (req, res) => {
+app.delete('/api/delete-genre/:id', async (req, res) => {
     const results = await db.deleteGenre(req.params.id);
     res.status(200).json({results});
 });
