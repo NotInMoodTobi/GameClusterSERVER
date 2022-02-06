@@ -1,25 +1,27 @@
 const knex = require('knex');
 const dbConnection = require('./knex_connection');
 
-/*
-// --- game functions ---
+// create Game
 function createGame(game) {
-    return knex('game').insert(game);
+    return dbConnection('game').insert(game);
 }
 
-function getAllGames() {
-    return knex('game').select('*');
-}
+// delete Game
+/*function deleteGame(id) {
+    isDeleted = dbConnection('game').where('game_id', id).select('is_deleted'); // revert 'delted' flag
+    console.log("isDeleted: " + isDeleted)
+    return dbConnection('game').where('game_id', id).update({is_deleted: isDeleted});
+}*/
 
+//update game with given id
 function updateGame(id, game) {
-    return knex('game').where('game_id', id).update(game);
+    return dbConnection('game').where('game_id', id).update(game);
 }
 
-function deleteGame(id) {
-    isDeleted = !(knex('game').where('game_id', id).select(deleted)); // revert 'delted' flag
-    return knex('game').where('game_id', id).update({deleted: isDeleted});
+// get all games
+function getAllGames() {
+    return dbConnection('game').select('*');
 }
-*/
 
 // --- genre functions ---
 function getAllGenre() {
@@ -32,42 +34,45 @@ function createGenre(name) {
 }
 
 // add genre to genre_game_connection
-function addGenreToGame(game_id, genre_id) {
-    // todo: abfangen bei duplikat
-    return dbConnection('game_genre_connection').insert(game_id, genre_id);
+function addGenreToGame(ids) {
+    // todo: abfangen bei duplikat,String zu int wandlung evtl
+    return dbConnection('game_genre_connection').insert({'fk_game_id': ids.game_id, 'fk_genre_id': ids.genre_id});
 }
 
 // remove genre from game
-function removeGenreFromGame(game_id, genre_id) {
+function removeGenreFromGame(ids) {
     return dbConnection('game_genre_connection')
-    .where('fk_game_id', game_id)
-    .andWhere('fk_genre_id', genre_id)
+    .where('fk_game_id', ids.game_id)
+    .andWhere('fk_genre_id', ids.genre_id)
     .del();
 }
 
 function getGenreFromGame(game_id) {
-    return dbConnection('game_genre_connection')
+    return dbConnection('game')
+    .select('genre.genre_id', 'genre.name')
+    .from('gamecluster.game_genre_connection')
     .innerJoin('genre',
     'game_genre_connection.fk_genre_id',
     '=',
     'genre.genre_id')
+    .where('game_genre_connection.fk_game_id', game_id)
 }
 
 // hard delete genre & delete genre from all games
 function deleteGenre(genre_id) {
-    return dbConnection('genre').where('id', id).del();
+    dbConnection('game_genre_connection').where('fk_genre_id',genre_id);
+    return dbConnection('genre').where('genre_id', genre_id).del();
 }
 
 module.exports = {
-    /*games
+    //deleteGame,
     createGame,
-    getAllGames,
     updateGame,
-    deleteGame,*/
-
-    //genre operations
+    getAllGames,
     getAllGenre,
     createGenre,
     addGenreToGame,
-    removeGenreFromGame
+    removeGenreFromGame,
+    getGenreFromGame,
+    deleteGenre
 };
