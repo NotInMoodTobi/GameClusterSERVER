@@ -22,8 +22,15 @@ function deleteGame(id) {
 */
 
 // --- genre functions ---
+
+// get all genre
 function getAllGenre() {
     return dbConnection('genre').select('*');
+}
+
+// get genre by id
+function getGenreById(genre_id) {
+    return dbConnection('genre').select('*').where('genre_id', genre_id)
 }
 
 // create genre
@@ -69,6 +76,7 @@ module.exports = {
 
     //genre operations
     getAllGenre,
+    getGenreById,
     createGenre,
     addGenreToGame,
     removeGenreFromGame,

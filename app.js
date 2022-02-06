@@ -33,20 +33,26 @@ app.patch('/api/games/:id', async (req, res) => {
 });
 
 
-
 // hard delete
+// TODO: testen
 app.delete('/api/game:id', async (req, res) => {
     const result = await db.deleteGame(req.params.id);
     res.status(200).json({succcess: true});
 });
 
-// genre operations
+
+// --- genre operations ---
 
 // get all genre
 app.get('/api/genre', async (req, res) => {
-    const genre = await db.getAllGenre();
-    res.status(200).json({genre});
+    const genres = await db.getAllGenre();
+    res.status(200).json({genres});
 });
+
+app.get('/api/genre/:id', async (req, res) => {
+    const genre = await db.getGenreById(req.params.id);
+    res.status(200).json({genre});
+})
 
 // create genre
 app.post('/api/create-genre', async (req, res) => {
@@ -61,7 +67,7 @@ app.post('/api/add-genre-to-game', async (req, res) => {
     res.status(200).json({results});
 });
 
-// getGenreFromGame
+// get genre from game by game_id
 app.get('/api/get-genre-from-Game/:id', async(req, res) => {
     const genre = await db.getGenreFromGame(req.params.id);
     res.status(200).json({genre});
@@ -73,12 +79,13 @@ app.delete('/api/remove-genre-from-game', async (req, res) => {
     res.status(200).json({results});
 });
 
+// delete genre by id
 app.delete('/api/delete-genre/:id', async (req, res) => {
     const results = await db.deleteGenre(req.params.id);
     res.status(200).json({results});
 });
 
-// remove genre
+// --- publisher operations ---
 
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
