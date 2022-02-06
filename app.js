@@ -107,5 +107,23 @@ app.delete('/api/publisher/:id', async (req, res) => {
     res.status(200).json({results})
 });
 
+// get publisher from game id
+app.get('/api/game-publisher-connection/:id', async (req, res) => {
+    const results = await db.getPublisherFromGame(req.params.id);
+    res.status(200).json({results})
+});
+
+// add publisher to game
+app.post('/api/game-publisher-connection/', async (req, res) => {
+    const results = await db.addPublisherToGame(req.body);
+    res.status(200).json({results})
+});
+
+// remove publisher from game
+app.delete('/api/game-publisher-connection/:id', async (req, res) => {
+    const results = await db.removePublisherFromGame(req.params.id);
+    res.status(200).json({results})
+});
+
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

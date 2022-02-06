@@ -81,7 +81,34 @@ function addPublisher(publisher) {
 }
 
 function deletePublisher(publisher_id) {
-    return dbConnection('publisher').del().where('publisher_id', publisher_id);
+    if(publisher_id != 1) {
+        return dbConnection('publisher').del().where('publisher_id', publisher_id);
+    } else {
+        return "You can't delete publisher_id=1";
+    }
+}
+
+// get publisher from game_id
+function getPublisherFromGame(publisher_id) {
+    return dbConnection('game_publisher_connection')
+    .select('publisher.publisher_id', 'publisher.name')
+    .innerJoin('publisher',
+    'game_publisher_connection.fk_publisher_id',
+    '=',
+    'publisher.publisher_id')
+    .where('game_publisher_connection.fk_game_id', publisher_id);
+}
+
+// add publisher to game
+function addPublisherToGame(publisher_genre) {
+    return dbConnection('game_publisher_connection').insert(publisher_genre);
+}
+
+// remove publisher from game
+// TODO: bedinung hinzufügen dass game_id & publisher:id einen wert benötigen, sonst kann unsinn passieren
+function removePublisherFromGame(publisher_genre) {
+    // if(publisher_genre.game_id && publisher_genre.publisher_id) ...
+    return dbConnection('game_publisher_connection').del().where(publisher_genre);
 }
 
 module.exports = {
@@ -104,5 +131,9 @@ module.exports = {
     getAllPublisher,
     getPublisherById,
     addPublisher,
-    deletePublisher
+    deletePublisher,
+    getPublisherFromGame,
+    addPublisherToGame,
+    removePublisherFromGame
+    
 };
