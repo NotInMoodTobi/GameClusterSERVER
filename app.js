@@ -15,7 +15,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
-// api roots
+// router
+const gameRouter = require('./routes/game/game');
+const genreRouter = require('./routes/genre/genre');
+const publisherRouter = require('./routes/publisher/publisher');
+const steamRouter = require('./routes/steam/steam');
+
+// router middleware
+app.use('/game', gameRouter);
+app.use('/genre', genreRouter);
+app.use('/publisher', publisherRouter);
+app.use('/steam', steamRouter);
 
 //SteamAPI Tester
 app.get('/api/steamapps', async (req, res) => {
