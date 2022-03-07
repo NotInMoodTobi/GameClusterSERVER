@@ -45,7 +45,6 @@ app.get("/steamapps/get-details", async (req, res) => {
 // get all games
 app.get("/games", async (req, res) => {
   const games = await db.getAllGames();
-  console.log(games);
   res.status(200).json({ games });
 });
 
@@ -58,7 +57,14 @@ app.get("/games/:id", async (req, res) => {
 // TODO: nicht fertig, testen
 // create game
 app.post("/games", async (req, res) => {
-  const results = await db.createGame(req.body);
+  const patched = {
+    ...req.body,
+    game_id: undefined,
+    release_date: req.body.release_date
+      ? new Date(req.body.release_date)
+      : undefined,
+  };
+  const results = await db.createGame(patched);
   res.status(201).json({ id: results[0] });
 });
 
