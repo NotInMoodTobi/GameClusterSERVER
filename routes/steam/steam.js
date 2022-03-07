@@ -7,22 +7,22 @@ const steam = require('steamHelper');
 // TODO: testen
 
 //SteamAPI Tester
-app.get('/api/steamapps', async (req, res) => {
+app.get('/steamapps', async (req, res) => {
 	const apps = await steam.searchGame(req.body);
 	res.status(200).json({ apps });
 });
-app.get('/api/steamapps/get-name-from-id', async (req, res) => {
+app.get('/steamapps/get-name-from-id', async (req, res) => {
 	const apps = await steam.sarchGameNameFromId(req.body);
 	res.status(200).json({ apps });
 });
-app.get('/api/steamapps/get-details', async (req, res) => {
+app.get('/steamapps/get-details', async (req, res) => {
 	const apps = await steam.getAllGameDetails(req.body);
 	res.status(200).json({ apps });
 });
 
 // TODO: nicht fertig
 // load data from steamAPI into game
-app.patch('/api/steam-data-to-game/:id', async (req, res) => {
+app.patch('/steam-data-to-game/:id', async (req, res) => {
 	// const id = await db.(req.params.id, req.body);
 	res.status(200).json({ id });
 });

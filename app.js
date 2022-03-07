@@ -30,19 +30,4 @@ app.use('/publisher', publisherRouter);
 app.use('/game_publisher_map', gamePublisherMapRouter);
 app.use('/steam', steamRouter);
 
-// --- publisher operations ---
-
-
-// add publisher to game
-app.post('/api/game-publisher-connection/', async (req, res) => {
-	const results = await db.addPublisherToGame(req.body);
-	res.status(200).json({ results });
-});
-
-// remove publisher from game
-app.delete('/api/game-publisher-connection/:id', async (req, res) => {
-	const results = await db.removePublisherFromGame(req.params.id);
-	res.status(200).json({ results });
-});
-
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
